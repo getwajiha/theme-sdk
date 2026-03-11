@@ -9,6 +9,10 @@
     "build": "tsup",
     "dev": "tsup --watch"
   },
+  "license": "MIT",
+  "publishConfig": {
+    "registry": "https://npm.pkg.github.com"
+  },
   "repository": {
     "type": "git",
     "url": "https://github.com/getwajiha/theme-sdk"
