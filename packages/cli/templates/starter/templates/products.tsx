@@ -16,7 +16,7 @@ import {
   useLocale,
   useTenant,
   type TemplateProps,
-} from '@wajiha/theme-sdk'
+} from '@getwajiha/theme-sdk'
 
 export default function ProductsTemplate({ data }: TemplateProps) {
   const products = useProducts()

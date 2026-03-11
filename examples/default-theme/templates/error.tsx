@@ -1,7 +1,7 @@
 'use client'
 
-import { useThemeData, useLocale } from '@wajiha/theme-sdk'
-import type { DataRequirements } from '@wajiha/theme-sdk'
+import { useThemeData, useLocale } from '@getwajiha/theme-sdk'
+import type { DataRequirements } from '@getwajiha/theme-sdk'
 
 export const dataRequirements: DataRequirements = {}
 

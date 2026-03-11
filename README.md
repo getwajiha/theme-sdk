@@ -4,8 +4,8 @@ Monorepo for the Wajiha theme development toolkit.
 
 ## Packages
 
-- **[@wajiha/theme-sdk](packages/theme-sdk/)** — React hooks, components, and types for building themes
-- **[@wajiha/cli](packages/cli/)** — CLI tool for theme development (`wajiha init`, `wajiha build`, `wajiha push`)
+- **[@getwajiha/theme-sdk](packages/theme-sdk/)** — React hooks, components, and types for building themes
+- **[@getwajiha/cli](packages/cli/)** — CLI tool for theme development (`wajiha init`, `wajiha build`, `wajiha push`)
 
 ## Examples
 

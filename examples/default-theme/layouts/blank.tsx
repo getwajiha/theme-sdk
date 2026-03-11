@@ -1,7 +1,7 @@
 'use client'
 
 import type { ReactNode } from 'react'
-import { useLocale } from '@wajiha/theme-sdk'
+import { useLocale } from '@getwajiha/theme-sdk'
 
 interface BlankLayoutProps {
   children: ReactNode

@@ -1,6 +1,6 @@
 'use client'
 
-import { useTenant } from '@wajiha/theme-sdk'
+import { useTenant } from '@getwajiha/theme-sdk'
 
 interface LogoProps {
   className?: string

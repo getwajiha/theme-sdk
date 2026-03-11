@@ -4,7 +4,7 @@
  * Provides realistic ThemePageData for each page type so theme developers
  * can preview their templates without a running platform instance.
  *
- * The data mirrors the shape defined in @wajiha/theme-sdk types.
+ * The data mirrors the shape defined in @getwajiha/theme-sdk types.
  */
 
 import type { ThemeConfig } from '../validation.js'
@@ -20,7 +20,7 @@ import type {
   UserInfo,
   Product,
   ErrorInfo,
-} from '@wajiha/theme-sdk'
+} from '@getwajiha/theme-sdk'
 
 export type { ThemePageData }
 

@@ -1,5 +1,5 @@
 {
-  "name": "@wajiha/theme-sdk",
+  "name": "@getwajiha/theme-sdk",
   "version": "1.0.0",
   "description": "Theme SDK for building Wajiha storefront themes",
   "type": "module",

@@ -1,7 +1,7 @@
 'use client'
 
 import { useState, useEffect } from 'react'
-import { useLocale } from '@wajiha/theme-sdk'
+import { useLocale } from '@getwajiha/theme-sdk'
 
 export function ThemeToggle() {
   const { t } = useLocale()

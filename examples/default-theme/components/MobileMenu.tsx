@@ -1,7 +1,7 @@
 'use client'
 
 import { useEffect } from 'react'
-import { useNavigation, useLocale } from '@wajiha/theme-sdk'
+import { useNavigation, useLocale } from '@getwajiha/theme-sdk'
 import { Logo } from './Logo'
 
 interface MobileMenuProps {

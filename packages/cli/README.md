@@ -1,17 +1,17 @@
-# @wajiha/cli
+# @getwajiha/cli
 
 Command-line tool for building and deploying custom themes on the Wajiha multi-tenant platform.
 
 ## Installation
 
 ```bash
-npm install -g @wajiha/cli
+npm install -g @getwajiha/cli
 ```
 
 Or use directly with npx:
 
 ```bash
-npx @wajiha/cli init my-theme
+npx @getwajiha/cli init my-theme
 ```
 
 ## Configuration
@@ -48,7 +48,7 @@ This creates the following directory structure, installs npm dependencies, and p
 ```
 my-theme/
   wajiha.theme.json          # Theme configuration
-  package.json               # Node dependencies (react, @wajiha/theme-sdk)
+  package.json               # Node dependencies (react, @getwajiha/theme-sdk)
   layouts/
     default.tsx              # Default layout (header + footer)
   templates/
@@ -83,7 +83,7 @@ Dev server features:
 - On-the-fly esbuild bundling of template/layout files
 - File watching with chokidar (templates, layouts, assets, locales)
 - WebSocket-based hot reload -- the browser refreshes automatically on file changes
-- Mock data that mirrors the `@wajiha/theme-sdk` `ThemePageData` shape
+- Mock data that mirrors the `@getwajiha/theme-sdk` `ThemePageData` shape
 
 Available routes:
 
@@ -265,7 +265,7 @@ return <h1>{t('hero.title')}</h1>
 
 ### Theme SDK Hooks
 
-Templates and layouts use hooks from `@wajiha/theme-sdk`:
+Templates and layouts use hooks from `@getwajiha/theme-sdk`:
 
 | Hook | Returns | Usage |
 |------|---------|-------|

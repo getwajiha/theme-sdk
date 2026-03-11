@@ -1,11 +1,11 @@
-# @wajiha/theme-sdk
+# @getwajiha/theme-sdk
 
 Theme SDK for building Wajiha storefront themes. Provides React hooks, components, utilities, and TypeScript types that connect your theme to the platform's data layer.
 
 ## Install
 
 ```bash
-npm install @wajiha/theme-sdk
+npm install @getwajiha/theme-sdk
 ```
 
 Peer dependencies: `react` (18 or 19), `react-dom` (18 or 19).
@@ -15,8 +15,8 @@ Peer dependencies: `react` (18 or 19), `react-dom` (18 or 19).
 Every theme is wrapped in a `ThemeProvider` by the platform at render time. Inside your theme components, use hooks to access tenant data, products, navigation, locale, settings, and more.
 
 ```tsx
-import { useLocale, useTenant, useProducts } from '@wajiha/theme-sdk'
-import { Container, ProductGrid, LanguageSwitcher } from '@wajiha/theme-sdk/components'
+import { useLocale, useTenant, useProducts } from '@getwajiha/theme-sdk'
+import { Container, ProductGrid, LanguageSwitcher } from '@getwajiha/theme-sdk/components'
 
 export default function HomePage() {
   const tenant = useTenant()
@@ -42,9 +42,9 @@ The package exposes three entry points:
 
 | Import path | Contents |
 |---|---|
-| `@wajiha/theme-sdk` | Provider, hooks, types, settings utilities |
-| `@wajiha/theme-sdk/components` | Pre-built UI components |
-| `@wajiha/theme-sdk/utils` | `cn`, `getTranslation`, `formatDate`, `formatCurrency`, `clsx` |
+| `@getwajiha/theme-sdk` | Provider, hooks, types, settings utilities |
+| `@getwajiha/theme-sdk/components` | Pre-built UI components |
+| `@getwajiha/theme-sdk/utils` | `cn`, `getTranslation`, `formatDate`, `formatCurrency`, `clsx` |
 
 ---
 
@@ -53,7 +53,7 @@ The package exposes three entry points:
 Wraps your theme and injects the `ThemePageData` context. The platform handles this automatically -- you do not need to render it yourself.
 
 ```tsx
-import { ThemeProvider } from '@wajiha/theme-sdk'
+import { ThemeProvider } from '@getwajiha/theme-sdk'
 
 <ThemeProvider data={pageData}>
   <YourTheme />
@@ -78,7 +78,7 @@ All hooks must be called inside a `ThemeProvider`. They throw if called outside 
 Returns the entire `ThemePageData` object. Use the more specific hooks below when you only need a slice.
 
 ```tsx
-import { useThemeData } from '@wajiha/theme-sdk'
+import { useThemeData } from '@getwajiha/theme-sdk'
 
 const data = useThemeData()
 // data.tenant, data.products, data.locale, data.settings, ...
@@ -93,7 +93,7 @@ const data = useThemeData()
 Returns tenant branding information.
 
 ```tsx
-import { useTenant } from '@wajiha/theme-sdk'
+import { useTenant } from '@getwajiha/theme-sdk'
 
 const tenant = useTenant()
 // tenant.name, tenant.domain, tenant.logo, tenant.favicon, tenant.description
@@ -116,7 +116,7 @@ const tenant = useTenant()
 Returns the product list for the current page. Only populated if the template declares products in its `DataRequirements`. Returns an empty array if no products are available.
 
 ```tsx
-import { useProducts } from '@wajiha/theme-sdk'
+import { useProducts } from '@getwajiha/theme-sdk'
 
 const products = useProducts()
 
@@ -148,7 +148,7 @@ products.map(p => (
 Returns locale information plus a `t()` translation function and an `isRTL` flag.
 
 ```tsx
-import { useLocale } from '@wajiha/theme-sdk'
+import { useLocale } from '@getwajiha/theme-sdk'
 
 const { current, available, direction, isRTL, t } = useLocale()
 
@@ -178,7 +178,7 @@ const { current, available, direction, isRTL, t } = useLocale()
 Returns the tenant's navigation menus. Menu items are nested (children support sub-menus).
 
 ```tsx
-import { useNavigation } from '@wajiha/theme-sdk'
+import { useNavigation } from '@getwajiha/theme-sdk'
 
 const { main, footer } = useNavigation()
 
@@ -211,7 +211,7 @@ Each `MenuItem`:
 Returns theme settings configured by the tenant admin. Settings are defined in `wajiha.theme.json` and their values are set through the admin panel.
 
 ```tsx
-import { useSettings } from '@wajiha/theme-sdk'
+import { useSettings } from '@getwajiha/theme-sdk'
 
 const settings = useSettings()
 
@@ -234,7 +234,7 @@ The `get` method returns the setting value if it exists, otherwise returns the p
 Returns metadata about the current page being rendered.
 
 ```tsx
-import { useCurrentPage } from '@wajiha/theme-sdk'
+import { useCurrentPage } from '@getwajiha/theme-sdk'
 
 const page = useCurrentPage()
 // page.type  -> 'index' | 'page' | 'products' | 'error'
@@ -252,7 +252,7 @@ const page = useCurrentPage()
 Returns the current user session. Returns an anonymous user object (`isAuthenticated: false`) when no user is logged in.
 
 ```tsx
-import { useUser } from '@wajiha/theme-sdk'
+import { useUser } from '@getwajiha/theme-sdk'
 
 const user = useUser()
 
@@ -276,7 +276,7 @@ return <a href="/login">Sign in</a>
 
 ## Components
 
-Import from `@wajiha/theme-sdk/components`. All components accept a `className` prop for custom styling.
+Import from `@getwajiha/theme-sdk/components`. All components accept a `className` prop for custom styling.
 
 ### Navigation
 
@@ -423,7 +423,7 @@ const [open, setOpen] = useState(false)
 
 ## Utilities
 
-Import from `@wajiha/theme-sdk/utils`.
+Import from `@getwajiha/theme-sdk/utils`.
 
 | Function | Signature | Description |
 |---|---|---|
@@ -434,7 +434,7 @@ Import from `@wajiha/theme-sdk/utils`.
 | `clsx` | Re-exported from `clsx` | Conditional class names |
 
 ```tsx
-import { getTranslation, formatDate, cn } from '@wajiha/theme-sdk/utils'
+import { getTranslation, formatDate, cn } from '@getwajiha/theme-sdk/utils'
 
 const name = getTranslation(product.name, 'ar', 'en')
 const date = formatDate(product.publishedAt, 'en')
@@ -587,7 +587,7 @@ import {
   useSettings,
   useNavigation,
   useCurrentPage,
-} from '@wajiha/theme-sdk'
+} from '@getwajiha/theme-sdk'
 import {
   Container,
   NavMenu,
@@ -595,7 +595,7 @@ import {
   LanguageSwitcher,
   RTLProvider,
   SEOHead,
-} from '@wajiha/theme-sdk/components'
+} from '@getwajiha/theme-sdk/components'
 
 export default function HomePage() {
   const tenant = useTenant()

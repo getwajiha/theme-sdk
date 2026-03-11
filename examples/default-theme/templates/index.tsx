@@ -1,7 +1,7 @@
 'use client'
 
-import { useSettings } from '@wajiha/theme-sdk'
-import type { DataRequirements } from '@wajiha/theme-sdk'
+import { useSettings } from '@getwajiha/theme-sdk'
+import type { DataRequirements } from '@getwajiha/theme-sdk'
 import { HeroSection } from '../sections/hero'
 import { ProductGridSection } from '../sections/product-grid'
 import { FeaturesSection } from '../sections/features'

@@ -1,6 +1,6 @@
 'use client'
 
-import { useNavigation, useLocale, useTenant } from '@wajiha/theme-sdk'
+import { useNavigation, useLocale, useTenant } from '@getwajiha/theme-sdk'
 
 export function Footer() {
   const navigation = useNavigation()

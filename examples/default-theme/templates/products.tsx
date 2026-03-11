@@ -1,8 +1,8 @@
 'use client'
 
 import { useState, useMemo } from 'react'
-import { useProducts, useLocale } from '@wajiha/theme-sdk'
-import type { DataRequirements } from '@wajiha/theme-sdk'
+import { useProducts, useLocale } from '@getwajiha/theme-sdk'
+import type { DataRequirements } from '@getwajiha/theme-sdk'
 
 export const dataRequirements: DataRequirements = {
   products: true,

@@ -1,7 +1,7 @@
 'use client'
 
 import { useState } from 'react'
-import { useNavigation, useLocale } from '@wajiha/theme-sdk'
+import { useNavigation, useLocale } from '@getwajiha/theme-sdk'
 import { Logo } from './Logo'
 import { ThemeToggle } from './ThemeToggle'
 import { MobileMenu } from './MobileMenu'

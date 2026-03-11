@@ -16,7 +16,7 @@ import {
   useCurrentPage,
   useLocale,
   type TemplateProps,
-} from '@wajiha/theme-sdk'
+} from '@getwajiha/theme-sdk'
 
 export default function PageTemplate({ data }: TemplateProps) {
   const page = useCurrentPage()

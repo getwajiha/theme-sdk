@@ -1,7 +1,7 @@
 'use client'
 
 import type { ReactNode } from 'react'
-import { useLocale, useSettings } from '@wajiha/theme-sdk'
+import { useLocale, useSettings } from '@getwajiha/theme-sdk'
 import { Header } from '../components/Header'
 import { Footer } from '../components/Footer'
 

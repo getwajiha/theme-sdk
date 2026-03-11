@@ -20,7 +20,7 @@ import {
   useLocale,
   useTenant,
   type TemplateProps,
-} from '@wajiha/theme-sdk'
+} from '@getwajiha/theme-sdk'
 
 // ── Hero Section ────────────────────────────────────────────────────
 

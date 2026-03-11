@@ -1,6 +1,6 @@
 'use client'
 
-import { useSettings, useLocale } from '@wajiha/theme-sdk'
+import { useSettings, useLocale } from '@getwajiha/theme-sdk'
 
 export function HeroSection() {
   const settings = useSettings()

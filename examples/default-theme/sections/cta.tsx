@@ -1,6 +1,6 @@
 'use client'
 
-import { useLocale } from '@wajiha/theme-sdk'
+import { useLocale } from '@getwajiha/theme-sdk'
 
 interface CTASectionProps {
   titleKey?: string

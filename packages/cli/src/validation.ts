@@ -15,7 +15,7 @@ import { validateKeycloakAssets } from './keycloak/validate.js'
 
 // ── Types ───────────────────────────────────────────────────────────
 
-import type { ThemeConfig as BaseThemeConfig, ThemeSettingDefinition } from '@wajiha/theme-sdk'
+import type { ThemeConfig as BaseThemeConfig, ThemeSettingDefinition } from '@getwajiha/theme-sdk'
 
 export interface ThemeConfig extends BaseThemeConfig {
   keycloak?: {

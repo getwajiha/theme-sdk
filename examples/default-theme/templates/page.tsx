@@ -1,8 +1,8 @@
 'use client'
 
-import { useCurrentPage, useLocale } from '@wajiha/theme-sdk'
-import { RichText } from '@wajiha/theme-sdk/components'
-import type { DataRequirements } from '@wajiha/theme-sdk'
+import { useCurrentPage, useLocale } from '@getwajiha/theme-sdk'
+import { RichText } from '@getwajiha/theme-sdk/components'
+import type { DataRequirements } from '@getwajiha/theme-sdk'
 
 export const dataRequirements: DataRequirements = {}
 

@@ -1,7 +1,7 @@
 'use client'
 
-import { Accordion, type AccordionItem } from '@wajiha/theme-sdk/components'
-import { useLocale } from '@wajiha/theme-sdk'
+import { Accordion, type AccordionItem } from '@getwajiha/theme-sdk/components'
+import { useLocale } from '@getwajiha/theme-sdk'
 
 interface FAQSectionProps {
   items?: AccordionItem[]

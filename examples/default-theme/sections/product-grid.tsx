@@ -1,6 +1,6 @@
 'use client'
 
-import { useProducts, useLocale, useSettings } from '@wajiha/theme-sdk'
+import { useProducts, useLocale, useSettings } from '@getwajiha/theme-sdk'
 
 export function ProductGridSection() {
   const allProducts = useProducts()

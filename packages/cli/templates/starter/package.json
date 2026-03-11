@@ -4,7 +4,7 @@
   "private": true,
   "description": "A custom Wajiha theme",
   "dependencies": {
-    "@wajiha/theme-sdk": "^1.0.0",
+    "@getwajiha/theme-sdk": "^1.0.0",
     "react": "^19.0.0",
     "react-dom": "^19.0.0"
   },

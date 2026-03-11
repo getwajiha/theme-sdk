@@ -19,7 +19,7 @@ import {
   useLocale,
   useSettings,
   type TemplateProps,
-} from '@wajiha/theme-sdk'
+} from '@getwajiha/theme-sdk'
 
 export default function ErrorTemplate({ data }: TemplateProps) {
   const { error } = useThemeData()

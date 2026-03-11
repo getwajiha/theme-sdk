@@ -54,7 +54,7 @@ async function bundleFile(
     platform: 'browser',
     target: ['es2020'],
     jsx: 'automatic',
-    external: ['react', 'react-dom', '@wajiha/theme-sdk'],
+    external: ['react', 'react-dom', '@getwajiha/theme-sdk'],
     sourcemap: 'inline',
     logLevel: 'silent',
     absWorkingDir: themeDir,

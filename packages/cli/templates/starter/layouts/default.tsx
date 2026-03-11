@@ -20,7 +20,7 @@ import {
   useLocale,
   useSettings,
   type LayoutProps,
-} from '@wajiha/theme-sdk'
+} from '@getwajiha/theme-sdk'
 
 // ── Header ──────────────────────────────────────────────────────────
 
