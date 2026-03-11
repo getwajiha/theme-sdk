@@ -1,0 +1,15 @@
+{
+  "name": "my-wajiha-theme",
+  "version": "1.0.0",
+  "private": true,
+  "description": "A custom Wajiha theme",
+  "dependencies": {
+    "@wajiha/theme-sdk": "^1.0.0",
+    "react": "^19.0.0",
+    "react-dom": "^19.0.0"
+  },
+  "devDependencies": {
+    "@types/react": "^19.0.0",
+    "typescript": "^5.5.0"
+  }
+}

@@ -1,0 +1,66 @@
+{
+  "nav": {
+    "home": "Home",
+    "products": "Products",
+    "about": "About",
+    "contact": "Contact",
+    "close": "Close menu",
+    "language": "Language"
+  },
+  "hero": {
+    "cta": "Get Started",
+    "explore": "Explore Products"
+  },
+  "products": {
+    "title": "Our Products",
+    "subtitle": "{count} products available",
+    "viewDocs": "View Documentation",
+    "noProducts": "No products available yet.",
+    "noResults": "No products match your search.",
+    "searchPlaceholder": "Search products..."
+  },
+  "features": {
+    "title": "Everything you need",
+    "subtitle": "Built for modern API teams",
+    "apiDocs": "API Documentation",
+    "apiDocsDesc": "Interactive API documentation with Try It support. Auto-generated from your OpenAPI specs with versioning built in.",
+    "sdkGen": "SDK Generation",
+    "sdkGenDesc": "Automatically generate client SDKs in multiple languages. Keep your developers productive with type-safe integrations.",
+    "analytics": "Analytics & Insights",
+    "analyticsDesc": "Track API usage, monitor performance, and gain insights into how developers interact with your platform."
+  },
+  "cta": {
+    "title": "Ready to get started?",
+    "desc": "Explore our products and start building with powerful, well-documented APIs.",
+    "button": "Browse Products"
+  },
+  "faq": {
+    "title": "Frequently Asked Questions",
+    "subtitle": "Find answers to common questions",
+    "q1": "How do I get started with the API?",
+    "a1": "Browse our product catalog, select the API you need, and follow the getting started guide in the documentation. Each product includes interactive examples and code samples.",
+    "q2": "What authentication methods are supported?",
+    "a2": "We support API key authentication, OAuth 2.0, and JWT bearer tokens depending on the product. Check the specific product documentation for details.",
+    "q3": "Is there a rate limit on API calls?",
+    "a3": "Rate limits vary by product and plan. Each product's documentation includes information about rate limits and how to handle them gracefully."
+  },
+  "error": {
+    "backHome": "Back to Home",
+    "404": "Page not found",
+    "404Desc": "The page you are looking for does not exist or has been moved.",
+    "423": "Store is locked",
+    "423Desc": "This store is currently unavailable. Please try again later.",
+    "500": "Something went wrong",
+    "500Desc": "An unexpected error occurred. Please try again later."
+  },
+  "page": {
+    "noContent": "This page has no content yet."
+  },
+  "footer": {
+    "copyright": "All rights reserved.",
+    "poweredBy": "Powered by Wajiha"
+  },
+  "theme": {
+    "toggle": "Switch to {mode} mode"
+  }
+}

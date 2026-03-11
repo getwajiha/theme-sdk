@@ -1,0 +1,68 @@
+/*
+ * Keycloak Login Theme — Custom CSS
+ *
+ * Override the default Keycloak login page styles with your brand colors.
+ * This CSS is injected after the base brand variables, so you can override
+ * any of them or add additional styling.
+ *
+ * Available CSS Custom Properties (set by the platform):
+ * ──────────────────────────────────────────────────────
+ * --brand-primary           Primary brand color
+ * --brand-secondary         Secondary brand color
+ * --brand-font              Font family
+ * --brand-theme-mode        "light" or "dark"
+ *
+ * Available CSS Classes:
+ * ──────────────────────
+ * .login-pf-page            Outermost container
+ * .login-pf-header          Header area (logo)
+ * .card-pf                  Main login card
+ * .login-pf-header h1       Page title
+ * .form-control             Input fields
+ * .btn-primary              Primary action button
+ * .btn-default              Secondary action button
+ * .login-pf-signup          Registration link area
+ * .alert                    Alert/error messages
+ * .kc-feedback-text         Feedback messages
+ *
+ * Security Notes:
+ * ──────────────
+ * - @import is NOT allowed
+ * - url() with external domains (http/https) is NOT allowed
+ * - expression(), behavior:, -moz-binding are NOT allowed
+ * - Maximum file size: 100KB
+ */
+
+/* Example: Override primary button color */
+/*
+.btn-primary {
+  background-color: var(--brand-primary);
+  border-color: var(--brand-primary);
+}
+
+.btn-primary:hover {
+  opacity: 0.9;
+}
+*/
+
+/* Example: Style the login card */
+/*
+.card-pf {
+  border-radius: 12px;
+  box-shadow: 0 4px 24px rgba(0, 0, 0, 0.1);
+}
+*/
+
+/* Example: Custom input styling */
+/*
+.form-control {
+  border-radius: 8px;
+  border: 1px solid rgba(0, 0, 0, 0.15);
+  padding: 10px 14px;
+}
+
+.form-control:focus {
+  border-color: var(--brand-primary);
+  box-shadow: 0 0 0 3px rgba(var(--brand-primary), 0.1);
+}
+*/

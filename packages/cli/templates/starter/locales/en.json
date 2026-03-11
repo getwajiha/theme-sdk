@@ -1,0 +1,16 @@
+{
+  "nav.home": "Home",
+  "nav.products": "Products",
+  "nav.docs": "Documentation",
+  "nav.about": "About",
+  "hero.title": "Build amazing products",
+  "hero.subtitle": "Your developer portal, your way.",
+  "products.title": "Our Products",
+  "products.explore": "Explore",
+  "products.empty": "No products available yet.",
+  "footer.copyright": "\u00a9 2025 All rights reserved.",
+  "error.title": "Something went wrong",
+  "error.back": "Go back home",
+  "page.readMore": "Read more",
+  "lang.switch": "Language"
+}

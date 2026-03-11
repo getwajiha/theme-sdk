@@ -1,0 +1,5 @@
+node_modules/
+dist/
+.wajiha-build/
+*.tsbuildinfo
+.DS_Store
