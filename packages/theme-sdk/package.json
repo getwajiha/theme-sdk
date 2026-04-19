@@ -1,5 +1,6 @@
 {
   "name": "@getwajiha/theme-sdk",
+  "private": false,
   "version": "1.0.0",
   "description": "Theme SDK for building Wajiha storefront themes",
   "type": "module",
@@ -51,7 +52,8 @@
   },
   "license": "MIT",
   "publishConfig": {
-    "registry": "https://npm.pkg.github.com"
+    "access": "public",
+    "registry": "https://registry.npmjs.org"
   },
   "repository": {
     "type": "git",

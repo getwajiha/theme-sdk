@@ -3,17 +3,23 @@
  *
  * Express application that serves theme renders with mock data.
  * Includes:
- *   - On-the-fly esbuild bundling of template files
+ *   - On-the-fly esbuild bundling of template and layout files
+ *   - Client-side rendering with React via import maps
+ *   - SDK bundled for browser and served locally
  *   - WebSocket server for hot reload
  *   - chokidar file watcher that triggers re-bundles on change
  *
  * Routes:
- *   GET /                   -> index template
- *   GET /products           -> products template
- *   GET /page/:slug         -> page template
- *   GET /error              -> error template
- *   GET /__wajiha/reload.js -> Hot-reload client script
- *   WS  /__wajiha/ws        -> Hot-reload WebSocket
+ *   GET /                          -> index template
+ *   GET /products                  -> products template
+ *   GET /page/:slug                -> page template
+ *   GET /error                     -> error template
+ *   GET /__wajiha/bundle/:type/:name.js -> Bundled template/layout
+ *   GET /__wajiha/sdk.js           -> SDK bundle for browser
+ *   GET /__wajiha/sdk-components.js -> SDK components bundle
+ *   GET /__wajiha/sdk-utils.js     -> SDK utils bundle
+ *   GET /__wajiha/reload.js        -> Hot-reload client script
+ *   WS  /__wajiha/ws               -> Hot-reload WebSocket
  */
 
 import express from 'express'
@@ -54,7 +60,7 @@ async function bundleFile(
     platform: 'browser',
     target: ['es2020'],
     jsx: 'automatic',
-    external: ['react', 'react-dom', '@getwajiha/theme-sdk'],
+    external: ['react', 'react-dom', 'react/jsx-runtime', '@getwajiha/theme-sdk', '@getwajiha/theme-sdk/components', '@getwajiha/theme-sdk/utils'],
     sourcemap: 'inline',
     logLevel: 'silent',
     absWorkingDir: themeDir,
@@ -62,6 +68,42 @@ async function bundleFile(
 
   const code = result.outputFiles?.[0]?.text ?? ''
   bundleCache.set(filePath, code)
+  return code
+}
+
+// ── SDK bundling ────────────────────────────────────────────────────
+
+const sdkBundleCache = new Map<string, string>()
+
+/**
+ * Bundle an SDK entry point for browser use.
+ * Externalizes react/react-dom so they come from the import map.
+ */
+async function bundleSdkEntry(
+  entryImport: string,
+  themeDir: string
+): Promise<string> {
+  if (sdkBundleCache.has(entryImport)) {
+    return sdkBundleCache.get(entryImport)!
+  }
+
+  const result = await esbuild.build({
+    stdin: {
+      contents: `export * from '${entryImport}'`,
+      resolveDir: themeDir,
+      loader: 'ts',
+    },
+    bundle: true,
+    write: false,
+    format: 'esm',
+    platform: 'browser',
+    target: ['es2020'],
+    external: ['react', 'react-dom', 'react/jsx-runtime'],
+    logLevel: 'silent',
+  })
+
+  const code = result.outputFiles?.[0]?.text ?? ''
+  sdkBundleCache.set(entryImport, code)
   return code
 }
 
@@ -87,11 +129,26 @@ const HOT_RELOAD_SCRIPT = `
 })();
 `
 
-// ── HTML shell ──────────────────────────────────────────────────────
+// ── Locale loader ───────────────────────────────────────────────────
+
+async function loadLocaleMessages(
+  themeDir: string,
+  locale: string
+): Promise<Record<string, string>> {
+  const localePath = path.join(themeDir, 'locales', `${locale}.json`)
+  try {
+    const raw = await fs.readFile(localePath, 'utf-8')
+    return JSON.parse(raw)
+  } catch {
+    return {}
+  }
+}
+
+// ── HTML shell with CSR ─────────────────────────────────────────────
 
 function buildHtmlShell(
   pageTitle: string,
-  themeDir: string,
+  templateName: string,
   pageDataJson: string
 ): string {
   return `<!DOCTYPE html>
@@ -101,22 +158,59 @@ function buildHtmlShell(
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <title>${pageTitle}</title>
   <link rel="stylesheet" href="/__wajiha/assets/styles/theme.css" />
+  <script type="importmap">
+  {
+    "imports": {
+      "react": "https://esm.sh/react@19.1.0?dev",
+      "react/jsx-runtime": "https://esm.sh/react@19.1.0/jsx-runtime?dev",
+      "react-dom": "https://esm.sh/react-dom@19.1.0?dev",
+      "react-dom/client": "https://esm.sh/react-dom@19.1.0/client?dev",
+      "@getwajiha/theme-sdk": "/__wajiha/sdk.js",
+      "@getwajiha/theme-sdk/components": "/__wajiha/sdk-components.js",
+      "@getwajiha/theme-sdk/utils": "/__wajiha/sdk-utils.js"
+    }
+  }
+  </script>
 </head>
 <body>
-  <div id="root">
-    <div style="max-width:800px;margin:40px auto;padding:0 20px;font-family:system-ui,sans-serif">
-      <h1>${pageTitle}</h1>
-      <p style="color:#666">This is the Wajiha dev server rendering with mock data.</p>
-      <p style="color:#666">The theme templates are being bundled on-the-fly.</p>
-      <hr style="margin:24px 0;border:none;border-top:1px solid #e5e7eb" />
-      <h3>Page Data (injected):</h3>
-      <pre style="background:#f3f4f6;padding:16px;border-radius:8px;overflow-x:auto;font-size:13px">${pageDataJson}</pre>
-      <hr style="margin:24px 0;border:none;border-top:1px solid #e5e7eb" />
-      <p style="color:#999;font-size:13px">
-        Hot reload is active. Edit your templates and this page will refresh automatically.
-      </p>
-    </div>
-  </div>
+  <div id="root"></div>
+  <script id="__THEME_DATA__" type="application/json">${pageDataJson}</script>
+  <script type="module">
+    import React from 'react';
+    import { createRoot } from 'react-dom/client';
+    import { ThemeProvider } from '@getwajiha/theme-sdk';
+
+    const pageData = JSON.parse(document.getElementById('__THEME_DATA__').textContent);
+
+    async function main() {
+      const [layoutMod, templateMod] = await Promise.all([
+        import('/__wajiha/bundle/layouts/default.js'),
+        import('/__wajiha/bundle/templates/${templateName}.js'),
+      ]);
+
+      const Layout = layoutMod.default;
+      const Template = templateMod.default;
+
+      const root = createRoot(document.getElementById('root'));
+      root.render(
+        React.createElement(ThemeProvider, { data: pageData },
+          React.createElement(Layout, null,
+            React.createElement(Template, { data: pageData })
+          )
+        )
+      );
+    }
+
+    main().catch(function(err) {
+      console.error('[wajiha] Render error:', err);
+      document.getElementById('root').innerHTML =
+        '<div style="max-width:700px;margin:40px auto;padding:20px;font-family:system-ui">' +
+        '<h2 style="color:#b91c1c">Theme Render Error</h2>' +
+        '<pre style="background:#fef2f2;padding:16px;border-radius:8px;overflow-x:auto;white-space:pre-wrap;color:#991b1b">' +
+        err.message + '\\n\\n' + (err.stack || '') +
+        '</pre></div>';
+    });
+  </script>
   <script src="/__wajiha/reload.js"></script>
 </body>
 </html>`
@@ -166,8 +260,8 @@ export async function createDevServer(options: DevServerOptions): Promise<void> 
     const relative = path.relative(themeDir, filePath)
     console.log(chalk.gray(`  [${event}] ${relative}`))
 
-    // Invalidate the bundle cache for changed template files
-    if (filePath.endsWith('.tsx') || filePath.endsWith('.jsx')) {
+    // Invalidate the bundle cache for changed template/layout files
+    if (filePath.endsWith('.tsx') || filePath.endsWith('.jsx') || filePath.endsWith('.ts')) {
       bundleCache.delete(filePath)
     }
 
@@ -187,60 +281,52 @@ export async function createDevServer(options: DevServerOptions): Promise<void> 
     res.type('application/javascript').send(HOT_RELOAD_SCRIPT)
   })
 
-  // ── Page routes ───────────────────────────────────────────────────
+  // ── SDK bundles ───────────────────────────────────────────────────
 
-  // Determine locale from query param: ?locale=ar
-  function getLocale(req: express.Request): string {
-    const locale = req.query.locale as string | undefined
-    if (locale && config.locales.includes(locale)) {
-      return locale
+  app.get('/__wajiha/sdk.js', async (_req, res) => {
+    try {
+      const code = await bundleSdkEntry('@getwajiha/theme-sdk', themeDir)
+      res.type('application/javascript').send(code)
+    } catch (err) {
+      res.status(500).type('application/javascript').send(
+        `// SDK bundle error:\n// ${err instanceof Error ? err.message : 'Unknown error'}`
+      )
     }
-    return config.locales[0] || 'en'
-  }
-
-  app.get('/', (req, res) => {
-    const locale = getLocale(req)
-    const data = createMockPageData('index', config, locale)
-    const json = JSON.stringify(data, null, 2)
-    res.type('html').send(
-      buildHtmlShell(`${config.name} - Home`, themeDir, escapeHtml(json))
-    )
   })
 
-  app.get('/products', (req, res) => {
-    const locale = getLocale(req)
-    const data = createMockPageData('products', config, locale)
-    const json = JSON.stringify(data, null, 2)
-    res.type('html').send(
-      buildHtmlShell(`${config.name} - Products`, themeDir, escapeHtml(json))
-    )
+  app.get('/__wajiha/sdk-components.js', async (_req, res) => {
+    try {
+      const code = await bundleSdkEntry('@getwajiha/theme-sdk/components', themeDir)
+      res.type('application/javascript').send(code)
+    } catch (err) {
+      res.status(500).type('application/javascript').send(
+        `// SDK components bundle error:\n// ${err instanceof Error ? err.message : 'Unknown error'}`
+      )
+    }
   })
 
-  app.get('/page/:slug', (req, res) => {
-    const locale = getLocale(req)
-    const data = createMockPageData('page', config, locale)
-    data.page.slug = req.params.slug
-    const json = JSON.stringify(data, null, 2)
-    res.type('html').send(
-      buildHtmlShell(`${config.name} - ${req.params.slug}`, themeDir, escapeHtml(json))
-    )
+  app.get('/__wajiha/sdk-utils.js', async (_req, res) => {
+    try {
+      const code = await bundleSdkEntry('@getwajiha/theme-sdk/utils', themeDir)
+      res.type('application/javascript').send(code)
+    } catch (err) {
+      res.status(500).type('application/javascript').send(
+        `// SDK utils bundle error:\n// ${err instanceof Error ? err.message : 'Unknown error'}`
+      )
+    }
   })
 
-  app.get('/error', (req, res) => {
-    const locale = getLocale(req)
-    const data = createMockPageData('error', config, locale)
-    const json = JSON.stringify(data, null, 2)
-    res.type('html').send(
-      buildHtmlShell(`${config.name} - Error`, themeDir, escapeHtml(json))
-    )
-  })
+  // ── Bundle endpoint (templates and layouts) ───────────────────────
 
-  // ── Bundle endpoint (for future client-side rendering) ────────────
+  app.get('/__wajiha/bundle/:type/:name.js', async (req, res) => {
+    const { type, name } = req.params
+    if (type !== 'templates' && type !== 'layouts') {
+      res.status(400).send('// Invalid bundle type. Use "templates" or "layouts".')
+      return
+    }
 
-  app.get('/__wajiha/bundle/:template', async (req, res) => {
-    const templateName = req.params.template.replace(/\.js$/, '')
-    const tsxPath = path.join(themeDir, 'templates', `${templateName}.tsx`)
-    const jsxPath = path.join(themeDir, 'templates', `${templateName}.jsx`)
+    const tsxPath = path.join(themeDir, type, `${name}.tsx`)
+    const jsxPath = path.join(themeDir, type, `${name}.jsx`)
 
     let filePath: string | null = null
     try {
@@ -251,7 +337,9 @@ export async function createDevServer(options: DevServerOptions): Promise<void> 
         await fs.access(jsxPath)
         filePath = jsxPath
       } catch {
-        res.status(404).send('Template not found')
+        res.status(404).type('application/javascript').send(
+          `// ${type}/${name} not found`
+        )
         return
       }
     }
@@ -260,10 +348,62 @@ export async function createDevServer(options: DevServerOptions): Promise<void> 
       const code = bundleCache.get(filePath) ?? (await bundleFile(filePath, themeDir))
       res.type('application/javascript').send(code)
     } catch (err) {
-      res.status(500).send(
-        `// Build error:\n// ${err instanceof Error ? err.message : 'Unknown error'}`
+      const message = err instanceof Error ? err.message : 'Unknown error'
+      console.error(chalk.red(`  Build error in ${type}/${name}:`), message)
+      res.status(500).type('application/javascript').send(
+        `// Build error in ${type}/${name}:\n// ${message}`
       )
     }
+  })
+
+  // ── Page routes ───────────────────────────────────────────────────
+
+  function getLocale(req: express.Request): string {
+    const locale = req.query.locale as string | undefined
+    if (locale && config.locales.includes(locale)) {
+      return locale
+    }
+    return config.locales[0] || 'en'
+  }
+
+  async function renderPage(
+    req: express.Request,
+    res: express.Response,
+    pageType: 'index' | 'page' | 'products' | 'error',
+    templateName: string,
+    title: string
+  ) {
+    const locale = getLocale(req)
+    const data = createMockPageData(pageType, config, locale)
+
+    // Load locale messages from the theme's locale files
+    const messages = await loadLocaleMessages(themeDir, locale)
+    if (Object.keys(messages).length > 0) {
+      data.locale.messages = messages
+    }
+
+    const json = JSON.stringify(data)
+      .replace(/</g, '\\u003c')
+      .replace(/>/g, '\\u003e')
+      .replace(/&/g, '\\u0026')
+
+    res.type('html').send(buildHtmlShell(title, templateName, json))
+  }
+
+  app.get('/', (req, res) => {
+    renderPage(req, res, 'index', 'index', `${config.name} - Home`)
+  })
+
+  app.get('/products', (req, res) => {
+    renderPage(req, res, 'products', 'products', `${config.name} - Products`)
+  })
+
+  app.get('/page/:slug', (req, res) => {
+    renderPage(req, res, 'page', 'page', `${config.name} - ${req.params.slug}`)
+  })
+
+  app.get('/error', (req, res) => {
+    renderPage(req, res, 'error', 'error', `${config.name} - Error`)
   })
 
   // ── Start ─────────────────────────────────────────────────────────
@@ -297,14 +437,4 @@ export async function createDevServer(options: DevServerOptions): Promise<void> 
       resolve()
     })
   })
-}
-
-// ── Utils ───────────────────────────────────────────────────────────
-
-function escapeHtml(str: string): string {
-  return str
-    .replace(/&/g, '&amp;')
-    .replace(/</g, '&lt;')
-    .replace(/>/g, '&gt;')
-    .replace(/"/g, '&quot;')
 }

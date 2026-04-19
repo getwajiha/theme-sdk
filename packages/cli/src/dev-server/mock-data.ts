@@ -26,12 +26,14 @@ export type { ThemePageData }
 
 // ── Mock tenant ─────────────────────────────────────────────────────
 
-const mockTenant: TenantInfo = {
-  name: 'Acme Developer Portal',
-  domain: 'localhost',
-  logo: null,
-  favicon: null,
-  description: 'A sample developer portal for theme development.',
+function buildMockTenant(config: ThemeConfig): TenantInfo {
+  return {
+    name: config.name,
+    domain: 'localhost',
+    logo: null,
+    favicon: null,
+    description: config.description || 'A developer portal powered by Wajiha.',
+  }
 }
 
 // ── Mock navigation ─────────────────────────────────────────────────
@@ -170,7 +172,7 @@ const enMessages: Record<string, string> = {
   'hero.subtitle': 'Your developer portal, your way.',
   'products.title': 'Our Products',
   'products.explore': 'Explore',
-  'footer.copyright': '(c) 2025 Acme Developer Portal. All rights reserved.',
+  'footer.copyright': '(c) 2025 ${config.name}. All rights reserved.',
   'error.title': 'Something went wrong',
   'error.back': 'Go back home',
   'page.readMore': 'Read more',
@@ -186,7 +188,7 @@ const arMessages: Record<string, string> = {
   'hero.subtitle': '\u0628\u0648\u0627\u0628\u0629 \u0627\u0644\u0645\u0637\u0648\u0631\u064A\u0646 \u0627\u0644\u062E\u0627\u0635\u0629 \u0628\u0643\u060C \u0628\u0637\u0631\u064A\u0642\u062A\u0643.',
   'products.title': '\u0645\u0646\u062A\u062C\u0627\u062A\u0646\u0627',
   'products.explore': '\u0627\u0633\u062A\u0643\u0634\u0641',
-  'footer.copyright': '\u00A9 2025 Acme Developer Portal. \u062C\u0645\u064A\u0639 \u0627\u0644\u062D\u0642\u0648\u0642 \u0645\u062D\u0641\u0648\u0638\u0629.',
+  'footer.copyright': '\u00A9 2025 ${config.name}. \u062C\u0645\u064A\u0639 \u0627\u0644\u062D\u0642\u0648\u0642 \u0645\u062D\u0641\u0648\u0638\u0629.',
   'error.title': '\u062D\u062F\u062B \u062E\u0637\u0623',
   'error.back': '\u0627\u0644\u0639\u0648\u062F\u0629 \u0644\u0644\u0631\u0626\u064A\u0633\u064A\u0629',
   'page.readMore': '\u0627\u0642\u0631\u0623 \u0627\u0644\u0645\u0632\u064A\u062F',
@@ -217,8 +219,10 @@ export function createMockPageData(
   const isRTL = locale === 'ar'
   const messages = locale === 'ar' ? arMessages : enMessages
 
+  const tenant = buildMockTenant(config)
+
   const base: ThemePageData = {
-    tenant: mockTenant,
+    tenant,
     navigation: mockNavigation,
     locale: {
       current: locale,
@@ -237,8 +241,8 @@ export function createMockPageData(
       base.page = {
         type: 'index',
         meta: {
-          title: 'Home - Acme Developer Portal',
-          description: 'Welcome to the Acme Developer Portal.',
+          title: `Home - ${config.name}`,
+          description: `Welcome to ${config.name}.`,
         },
       }
       base.products = mockProducts
@@ -248,7 +252,7 @@ export function createMockPageData(
       base.page = {
         type: 'products',
         meta: {
-          title: 'Products - Acme Developer Portal',
+          title: `Products - ${config.name}`,
           description: 'Browse our API products and services.',
         },
       }
@@ -260,8 +264,8 @@ export function createMockPageData(
         type: 'page',
         slug: 'about',
         meta: {
-          title: 'About - Acme Developer Portal',
-          description: 'Learn more about the Acme Developer Portal.',
+          title: `About - ${config.name}`,
+          description: `Learn more about ${config.name}.`,
         },
         content:
           '<h2>About Us</h2><p>We provide developer tools and APIs that help teams build better software. Our platform powers thousands of applications worldwide.</p><p>Founded in 2020, we are committed to making API integration as seamless as possible.</p>',

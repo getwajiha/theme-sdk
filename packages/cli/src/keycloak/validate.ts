@@ -30,20 +30,25 @@ const BLOCKED_URL_PATTERN = /url\s*\(\s*['"]?\s*(https?:\/\/)/gi
 
 /**
  * Validate the CSS content for security issues.
+ * Strips comments before checking so that documentation
+ * mentioning blocked patterns doesn't trigger false positives.
  */
 export function validateKeycloakCSS(css: string): string[] {
   const errors: string[] = []
 
+  // Strip CSS comments before validation
+  const cssWithoutComments = css.replace(/\/\*[\s\S]*?\*\//g, '')
+
   for (const { pattern, reason } of BLOCKED_PATTERNS) {
     // Reset lastIndex for global regex
     pattern.lastIndex = 0
-    if (pattern.test(css)) {
+    if (pattern.test(cssWithoutComments)) {
       errors.push(reason)
     }
   }
 
   BLOCKED_URL_PATTERN.lastIndex = 0
-  if (BLOCKED_URL_PATTERN.test(css)) {
+  if (BLOCKED_URL_PATTERN.test(cssWithoutComments)) {
     errors.push('url() with external domains (http/https) is not allowed')
   }
 

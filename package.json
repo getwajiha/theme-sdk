@@ -1,6 +1,6 @@
 {
   "name": "wajiha-theme-tools",
-  "private": true,
+  "private": false,
   "workspaces": ["packages/*"],
   "scripts": {
     "build": "npm run build --workspaces --if-present",
