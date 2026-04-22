@@ -21,6 +21,27 @@
         { "value": "wide", "label": { "en": "Wide", "ar": "عريض" } }
       ],
       "default": "centered"
+    },
+    {
+      "key": "nav_main",
+      "type": "array",
+      "item_type": "nav-item",
+      "label": { "en": "Main Navigation", "ar": "التنقل الرئيسي" },
+      "default": [
+        { "label": { "en": "Home", "ar": "الرئيسية" }, "url": "/" },
+        { "label": { "en": "Docs", "ar": "التوثيق" }, "url": "/products" }
+      ],
+      "maxItems": 50,
+      "maxLength": 200
+    },
+    {
+      "key": "nav_footer",
+      "type": "array",
+      "item_type": "nav-item",
+      "label": { "en": "Footer Navigation", "ar": "تنقل التذييل" },
+      "default": [],
+      "maxItems": 50,
+      "maxLength": 200
     }
   ],
   "routes": {
