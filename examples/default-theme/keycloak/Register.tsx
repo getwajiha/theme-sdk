@@ -1,11 +1,17 @@
 /**
- * Midnight Prism Registration Page — React Component
+ * Wajiha Default — Keycloak Registration page (React)
  */
 
 import React from 'react'
 import { GlassCard } from './components/GlassCard'
 import { GlassInput } from './components/GlassInput'
 import type { KcContext } from './types'
+
+const ACCENT = 'var(--brand-primary-hex, #0e6e6e)'
+const ACCENT_HOVER = 'color-mix(in srgb, var(--brand-primary-hex, #0e6e6e) 88%, black)'
+const PAGE_BG = '#fafbfc'
+const FG = '#0a0e14'
+const FG_MUTED = '#5a6472'
 
 export function Register({ kcContext }: { kcContext: KcContext }) {
   const { url, realm, message, locale } = kcContext
@@ -19,8 +25,10 @@ export function Register({ kcContext }: { kcContext: KcContext }) {
         alignItems: 'center',
         justifyContent: 'center',
         minHeight: '100vh',
+        background: PAGE_BG,
+        padding: '24px',
         fontFamily: "var(--brand-font, 'Inter', system-ui, sans-serif)",
-        color: '#fff',
+        color: FG,
       }}
     >
       <GlassCard>
@@ -29,9 +37,7 @@ export function Register({ kcContext }: { kcContext: KcContext }) {
             style={{
               fontSize: '24px',
               fontWeight: 700,
-              background: 'linear-gradient(135deg, var(--brand-primary, #8B5CF6), #A78BFA)',
-              WebkitBackgroundClip: 'text',
-              WebkitTextFillColor: 'transparent',
+              color: FG,
               marginBottom: '8px',
             }}
           >
@@ -43,18 +49,12 @@ export function Register({ kcContext }: { kcContext: KcContext }) {
           <div
             style={{
               padding: '12px 16px',
-              borderRadius: '12px',
+              borderRadius: '6px',
               marginBottom: '20px',
               fontSize: '14px',
-              background:
-                message.type === 'error'
-                  ? 'rgba(239, 68, 68, 0.15)'
-                  : 'rgba(139, 92, 246, 0.15)',
-              border: `1px solid ${
-                message.type === 'error'
-                  ? 'rgba(239, 68, 68, 0.3)'
-                  : 'rgba(139, 92, 246, 0.3)'
-              }`,
+              background: message.type === 'error' ? '#ffe0e0' : '#dee9ff',
+              color: message.type === 'error' ? '#b42318' : '#1d5fd1',
+              border: '1px solid transparent',
             }}
           >
             <span dangerouslySetInnerHTML={{ __html: message.summary }} />
@@ -76,28 +76,34 @@ export function Register({ kcContext }: { kcContext: KcContext }) {
             type="submit"
             style={{
               width: '100%',
-              padding: '14px',
+              padding: '12px 14px',
               marginTop: '8px',
-              background: 'linear-gradient(135deg, var(--brand-primary, #8B5CF6), #A78BFA)',
-              color: '#fff',
-              border: 'none',
-              borderRadius: '12px',
+              background: ACCENT,
+              color: '#ffffff',
+              border: '1px solid transparent',
+              borderRadius: '6px',
               fontSize: '15px',
               fontWeight: 600,
               cursor: 'pointer',
-              boxShadow: '0 4px 20px rgba(139, 92, 246, 0.3)',
+              transition: 'background 0.12s, transform 0.12s',
+            }}
+            onMouseEnter={(e) => {
+              ;(e.currentTarget as HTMLButtonElement).style.background = ACCENT_HOVER
+            }}
+            onMouseLeave={(e) => {
+              ;(e.currentTarget as HTMLButtonElement).style.background = ACCENT
             }}
           >
             Register
           </button>
         </form>
 
-        <div style={{ textAlign: 'center', marginTop: '24px', fontSize: '13px', color: 'rgba(255,255,255,0.5)' }}>
+        <div style={{ textAlign: 'center', marginTop: '24px', fontSize: '13px', color: FG_MUTED }}>
           Already have an account?{' '}
           <a
             href={url.loginUrl}
             style={{
-              color: 'var(--brand-primary, #8B5CF6)',
+              color: ACCENT,
               fontWeight: 500,
               textDecoration: 'none',
             }}

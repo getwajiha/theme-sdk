@@ -1,13 +1,22 @@
 /**
- * Midnight Prism Login Page — React Component
+ * Wajiha Default — Keycloak Login page (React)
  *
- * Matches the existing FTL visual design with glassmorphism and violet accents.
+ * Light-first login surface that mirrors the Wajiha DS docs canvas. The
+ * tenant brand colour cascades via `--brand-primary-hex` (set on <html>
+ * by the Keycloak theme bundle), with deep teal as the fallback.
  */
 
 import React, { useState } from 'react'
 import { GlassCard } from './components/GlassCard'
 import { GlassInput } from './components/GlassInput'
 import type { KcContext } from './types'
+
+const ACCENT = 'var(--brand-primary-hex, #0e6e6e)'  // --ds-accent
+const ACCENT_HOVER = 'color-mix(in srgb, var(--brand-primary-hex, #0e6e6e) 88%, black)'
+const PAGE_BG = '#fafbfc'      // --ds-surface
+const FG = '#0a0e14'           // --ds-fg
+const FG_MUTED = '#5a6472'     // --ds-fg-muted
+const FG_FAINT = '#8a93a1'     // --ds-fg-faint
 
 export function Login({ kcContext }: { kcContext: KcContext }) {
   const [showPassword, setShowPassword] = useState(false)
@@ -22,8 +31,10 @@ export function Login({ kcContext }: { kcContext: KcContext }) {
         alignItems: 'center',
         justifyContent: 'center',
         minHeight: '100vh',
+        background: PAGE_BG,
+        padding: '24px',
         fontFamily: "var(--brand-font, 'Inter', system-ui, sans-serif)",
-        color: '#fff',
+        color: FG,
       }}
     >
       <GlassCard>
@@ -32,9 +43,7 @@ export function Login({ kcContext }: { kcContext: KcContext }) {
             style={{
               fontSize: '24px',
               fontWeight: 700,
-              background: 'linear-gradient(135deg, var(--brand-primary, #8B5CF6), #A78BFA)',
-              WebkitBackgroundClip: 'text',
-              WebkitTextFillColor: 'transparent',
+              color: FG,
               marginBottom: '8px',
             }}
           >
@@ -46,22 +55,22 @@ export function Login({ kcContext }: { kcContext: KcContext }) {
           <div
             style={{
               padding: '12px 16px',
-              borderRadius: '12px',
+              borderRadius: '6px',
               marginBottom: '20px',
               fontSize: '14px',
               background:
                 message.type === 'error'
-                  ? 'rgba(239, 68, 68, 0.15)'
+                  ? '#ffe0e0'           // --status-danger-bg
                   : message.type === 'success'
-                    ? 'rgba(34, 197, 94, 0.15)'
-                    : 'rgba(139, 92, 246, 0.15)',
-              border: `1px solid ${
+                    ? '#dcf5e5'         // --status-ok-bg
+                    : '#dee9ff',        // --status-info-bg
+              color:
                 message.type === 'error'
-                  ? 'rgba(239, 68, 68, 0.3)'
+                  ? '#b42318'
                   : message.type === 'success'
-                    ? 'rgba(34, 197, 94, 0.3)'
-                    : 'rgba(139, 92, 246, 0.3)'
-              }`,
+                    ? '#0a8f4a'
+                    : '#1d5fd1',
+              border: '1px solid transparent',
             }}
           >
             <span dangerouslySetInnerHTML={{ __html: message.summary }} />
@@ -101,7 +110,7 @@ export function Login({ kcContext }: { kcContext: KcContext }) {
                   alignItems: 'center',
                   gap: '8px',
                   fontSize: '13px',
-                  color: 'rgba(255, 255, 255, 0.6)',
+                  color: FG_MUTED,
                   cursor: 'pointer',
                 }}
               >
@@ -118,8 +127,9 @@ export function Login({ kcContext }: { kcContext: KcContext }) {
                 border: 'none',
                 cursor: 'pointer',
                 fontSize: '13px',
-                color: 'var(--brand-primary, #8B5CF6)',
+                color: ACCENT,
                 marginLeft: 'auto',
+                padding: 0,
               }}
             >
               {showPassword ? 'Hide' : 'Show'}
@@ -130,16 +140,21 @@ export function Login({ kcContext }: { kcContext: KcContext }) {
             type="submit"
             style={{
               width: '100%',
-              padding: '14px',
-              background: 'linear-gradient(135deg, var(--brand-primary, #8B5CF6), #A78BFA)',
-              color: '#fff',
-              border: 'none',
-              borderRadius: '12px',
+              padding: '12px 14px',
+              background: ACCENT,
+              color: '#ffffff',
+              border: '1px solid transparent',
+              borderRadius: '6px',          // --ds-radius-md
               fontSize: '15px',
               fontWeight: 600,
               cursor: 'pointer',
-              transition: 'transform 0.15s, box-shadow 0.15s',
-              boxShadow: '0 4px 20px rgba(139, 92, 246, 0.3)',
+              transition: 'background 0.12s, transform 0.12s',
+            }}
+            onMouseEnter={(e) => {
+              ;(e.currentTarget as HTMLButtonElement).style.background = ACCENT_HOVER
+            }}
+            onMouseLeave={(e) => {
+              ;(e.currentTarget as HTMLButtonElement).style.background = ACCENT
             }}
           >
             Sign In
@@ -152,7 +167,7 @@ export function Login({ kcContext }: { kcContext: KcContext }) {
               href={url.loginResetCredentialsUrl}
               style={{
                 fontSize: '13px',
-                color: 'rgba(255, 255, 255, 0.5)',
+                color: FG_FAINT,
                 textDecoration: 'none',
               }}
             >
@@ -171,11 +186,11 @@ export function Login({ kcContext }: { kcContext: KcContext }) {
                 marginBottom: '20px',
               }}
             >
-              <div style={{ flex: 1, height: '1px', background: 'rgba(255,255,255,0.1)' }} />
-              <span style={{ fontSize: '12px', color: 'rgba(255,255,255,0.4)', textTransform: 'uppercase', letterSpacing: '1px' }}>
+              <div style={{ flex: 1, height: '1px', background: '#e5e8eb' }} />
+              <span style={{ fontSize: '12px', color: FG_FAINT, textTransform: 'uppercase', letterSpacing: '1px' }}>
                 or
               </span>
-              <div style={{ flex: 1, height: '1px', background: 'rgba(255,255,255,0.1)' }} />
+              <div style={{ flex: 1, height: '1px', background: '#e5e8eb' }} />
             </div>
             <div style={{ display: 'flex', flexDirection: 'column', gap: '10px' }}>
               {social.providers.map((provider) => (
@@ -186,13 +201,13 @@ export function Login({ kcContext }: { kcContext: KcContext }) {
                     display: 'block',
                     textAlign: 'center',
                     padding: '12px',
-                    background: 'rgba(255, 255, 255, 0.05)',
-                    border: '1px solid rgba(255, 255, 255, 0.1)',
-                    borderRadius: '12px',
-                    color: '#fff',
+                    background: '#fafbfc',
+                    border: '1px solid #e5e8eb',
+                    borderRadius: '6px',
+                    color: FG,
                     textDecoration: 'none',
                     fontSize: '14px',
-                    transition: 'background 0.2s',
+                    transition: 'background 0.12s',
                   }}
                 >
                   {provider.displayName}
@@ -203,12 +218,12 @@ export function Login({ kcContext }: { kcContext: KcContext }) {
         )}
 
         {realm.registrationAllowed && (
-          <div style={{ textAlign: 'center', marginTop: '24px', fontSize: '13px', color: 'rgba(255,255,255,0.5)' }}>
+          <div style={{ textAlign: 'center', marginTop: '24px', fontSize: '13px', color: FG_MUTED }}>
             Don&apos;t have an account?{' '}
             <a
               href={url.registrationUrl}
               style={{
-                color: 'var(--brand-primary, #8B5CF6)',
+                color: ACCENT,
                 fontWeight: 500,
                 textDecoration: 'none',
               }}

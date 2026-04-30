@@ -1,8 +1,8 @@
 {
   "name": "@wajiha/default-theme",
-  "version": "1.0.0",
+  "version": "1.1.0",
   "private": true,
-  "description": "Midnight Prism - Default theme for Wajiha storefront",
+  "description": "Wajiha Default - Reference Wajiha storefront theme built on the Wajiha Design System tokens",
   "type": "module",
   "main": "templates/index.tsx",
   "scripts": {
@@ -10,14 +10,14 @@
     "lint": "eslint ."
   },
   "peerDependencies": {
-    "@getwajiha/theme-sdk": "^1.0.0",
+    "@getwajiha/theme-sdk": "^1.1.0",
     "react": "^18.0.0 || ^19.0.0",
     "react-dom": "^18.0.0 || ^19.0.0"
   },
   "devDependencies": {
     "@types/react": "^19.0.0",
     "@types/react-dom": "^19.0.0",
-    "@getwajiha/theme-sdk": "^1.0.0",
+    "@getwajiha/theme-sdk": "^1.1.0",
     "typescript": "^5.0.0"
   }
 }

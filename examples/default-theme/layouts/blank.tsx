@@ -11,7 +11,7 @@ export default function BlankLayout({ children }: BlankLayoutProps) {
   const { direction } = useLocale()
 
   return (
-    <div className="mp-theme" dir={direction} data-theme="dark">
+    <div className="mp-theme" dir={direction}>
       {children}
     </div>
   )

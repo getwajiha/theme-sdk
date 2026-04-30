@@ -1,69 +1,80 @@
 /*
- * Midnight Prism — Keycloak Login CSS
+ * Wajiha Default — Keycloak Login CSS
  *
- * Dark theme styling for Keycloak login pages,
- * matching the default Midnight Prism design system.
+ * Light-first surface that mirrors the Wajiha DS docs canvas. Keycloak
+ * itself ships with the legacy `pf-` (PatternFly) class names; they are
+ * kept here and re-skinned to the DS palette. Tenant brand colour cascades
+ * via `--brand-primary-hex`, which the DS tokens (`--ds-accent`) resolve.
+ *
+ * Hardcoded fallback hexes are intentional — Keycloak serves this CSS
+ * standalone on the login page, where there is no chance to import the
+ * SDK token file. The defaults track the canonical Wajiha DS values.
  */
 
-/* Login page background */
+/* Page background */
 .login-pf-page {
-  background: linear-gradient(135deg, #0f0a1e 0%, #1a1033 50%, #0f0a1e 100%);
+  background: #fafbfc;            /* matches --ds-surface */
+  color: #0a0e14;                 /* matches --ds-fg */
 }
 
 /* Login card */
 .card-pf {
-  background: rgba(26, 16, 51, 0.95);
-  border: 1px solid rgba(139, 92, 246, 0.15);
-  border-radius: 16px;
-  box-shadow: 0 8px 32px rgba(0, 0, 0, 0.4);
-  backdrop-filter: blur(12px);
+  background: #ffffff;            /* --ds-bg */
+  border: 1px solid #e5e8eb;      /* --ds-border */
+  border-radius: 10px;            /* --ds-radius-xl */
+  box-shadow: 0 10px 28px rgba(15, 23, 41, 0.10); /* --ds-elevation-e3 */
 }
 
 /* Header */
 .login-pf-header h1 {
-  color: #e2e8f0;
+  color: #0a0e14;                 /* --ds-fg */
   font-weight: 600;
 }
 
 /* Form inputs */
-.form-control {
-  background: rgba(15, 10, 30, 0.6);
-  border: 1px solid rgba(139, 92, 246, 0.2);
-  border-radius: 8px;
-  color: #e2e8f0;
+.form-control,
+.form-input {
+  background: #ffffff;
+  border: 1px solid #e5e8eb;      /* --ds-border */
+  border-radius: 6px;             /* --ds-radius-md */
+  color: #0a0e14;                 /* --ds-fg */
   padding: 10px 14px;
-  transition: border-color 0.2s, box-shadow 0.2s;
+  transition: border-color 0.12s, box-shadow 0.12s;
 }
 
-.form-control:focus {
-  border-color: #8B5CF6;
-  box-shadow: 0 0 0 3px rgba(139, 92, 246, 0.15);
+.form-control:focus,
+.form-input:focus {
+  border-color: var(--brand-primary-hex, #0e6e6e);
+  box-shadow: 0 0 0 3px color-mix(in srgb,
+    var(--brand-primary-hex, #0e6e6e) 20%, transparent);
   outline: none;
 }
 
-.form-control::placeholder {
-  color: rgba(226, 232, 240, 0.4);
+.form-control::placeholder,
+.form-input::placeholder {
+  color: #8a93a1;                 /* --ds-fg-faint */
 }
 
 /* Labels */
 label {
-  color: #cbd5e1;
+  color: #5a6472;                 /* --ds-fg-muted */
   font-weight: 500;
 }
 
 /* Primary button */
 .btn-primary {
-  background: linear-gradient(135deg, #8B5CF6, #A78BFA);
-  border: none;
-  border-radius: 8px;
-  color: #fff;
+  background: var(--brand-primary-hex, #0e6e6e);
+  border: 1px solid var(--brand-primary-hex, #0e6e6e);
+  border-radius: 6px;             /* --ds-radius-md */
+  color: #ffffff;
   font-weight: 600;
   padding: 10px 20px;
-  transition: opacity 0.2s, transform 0.1s;
+  transition: background-color 0.12s, transform 0.12s;
 }
 
 .btn-primary:hover {
-  opacity: 0.9;
+  background: color-mix(in srgb,
+    var(--brand-primary-hex, #0e6e6e) 88%, black);
   transform: translateY(-1px);
 }
 
@@ -73,24 +84,25 @@ label {
 
 /* Links */
 a {
-  color: #A78BFA;
+  color: var(--brand-primary-hex, #0e6e6e);
 }
 
 a:hover {
-  color: #C4B5FD;
+  color: color-mix(in srgb,
+    var(--brand-primary-hex, #0e6e6e) 88%, black);
 }
 
 /* Alert messages */
 .alert-error {
-  background: rgba(239, 68, 68, 0.1);
-  border: 1px solid rgba(239, 68, 68, 0.3);
-  border-radius: 8px;
-  color: #fca5a5;
+  background: #ffe0e0;            /* --status-danger-bg */
+  border: 1px solid #ffe0e0;
+  border-radius: 6px;
+  color: #b42318;                 /* --status-danger-fg */
 }
 
 .alert-success {
-  background: rgba(34, 197, 94, 0.1);
-  border: 1px solid rgba(34, 197, 94, 0.3);
-  border-radius: 8px;
-  color: #86efac;
+  background: #dcf5e5;            /* --status-ok-bg */
+  border: 1px solid #dcf5e5;
+  border-radius: 6px;
+  color: #0a8f4a;                 /* --status-ok-fg */
 }

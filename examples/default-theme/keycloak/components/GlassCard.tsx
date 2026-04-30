@@ -1,5 +1,9 @@
 /**
- * Glassmorphism card component for Midnight Prism theme.
+ * Wajiha Default — Login surface card
+ *
+ * Light, soft-shadow card matching the Wajiha DS docs canvas. The name
+ * `GlassCard` is preserved for compatibility with the existing Login /
+ * Register imports — only the styling changed.
  */
 
 import React from 'react'
@@ -15,13 +19,13 @@ export function GlassCard({
     <div
       className={className}
       style={{
-        background: 'rgba(255, 255, 255, 0.05)',
-        backdropFilter: 'blur(20px)',
-        WebkitBackdropFilter: 'blur(20px)',
-        borderRadius: '24px',
-        border: '1px solid rgba(255, 255, 255, 0.1)',
+        background: '#ffffff',                    // --ds-bg
+        border: '1px solid #e5e8eb',              // --ds-border
+        borderRadius: '10px',                     // --ds-radius-xl
         padding: '40px',
-        boxShadow: '0 8px 32px rgba(0, 0, 0, 0.3)',
+        boxShadow: '0 10px 28px rgba(15, 23, 41, 0.10)', // --ds-elevation-e3
+        width: '100%',
+        maxWidth: '400px',
       }}
     >
       {children}

@@ -1,0 +1,185 @@
+/* @getwajiha/theme-sdk — Wajiha DS canonical tokens
+ *
+ * Optional, opt-in CSS scaffold. Themes may import this to inherit the
+ * platform's docs-surface tokens (`--ds-*`), system scales (radius / spacing /
+ * elevation / motion / breakpoints / focus), and the canonical status palette
+ * (`--status-*`). Tenants override the visible accent at runtime via
+ * `--brand-primary-hex`, which the `--ds-accent` definitions resolve through.
+ *
+ *   import '@getwajiha/theme-sdk/tokens.css'
+ *
+ * If a theme prefers its own design language, simply do NOT import this file.
+ * Themes are self-contained CSS bundles served from S3 — there is no
+ * requirement to consume these tokens.
+ *
+ * Token roles, contrast pairs, and source notes are documented inline below.
+ * Source of truth: storefront2/src/styles/{ds-tokens,ds-scales,status-palette}.css
+ */
+
+/* ── Docs surface (light) ───────────────────────────────────────────────── */
+
+:root {
+  /* Surfaces */
+  --ds-bg: #ffffff;
+  --ds-surface: #fafbfc;
+  --ds-surface-alt: #f4f6f8;
+  --ds-border: #e5e8eb;
+  --ds-border-soft: #eef0f3;
+
+  /* Foreground hierarchy */
+  --ds-fg: #0a0e14;
+  --ds-fg-muted: #5a6472;
+  --ds-fg-faint: #8a93a1;
+
+  /* Code */
+  --ds-code: #1a1f29;
+  --ds-code-bg: #f7f8fa;
+
+  /* Accent — defers to per-tenant brand override; deep teal fallback so
+     it never collides with 2xx-success / GET-method green. */
+  --ds-accent: var(--brand-primary-hex, #0e6e6e);
+  --ds-accent-soft: #e3f1f1;
+  --ds-accent-hover: #0b5a5a;
+
+  /* Page background — warm off-white shell */
+  --ds-page-bg: #f0eee9;
+
+  /* Toggle off-state track — neutral grey distinct from any status hue */
+  --ds-toggle-track: #d4d8e4;
+
+  /* Selected / highlighted row in tables and pickers */
+  --ds-selected-row: #f5f8ff;
+
+  /* ── System: radius (6 stops, role-bound) ────────────────────────────── */
+  --ds-radius-xs: 3px;       /* kbd · inline code · tags inside dense rows */
+  --ds-radius-sm: 4px;       /* enum chips · status badges · file pills */
+  --ds-radius-md: 6px;       /* docs inputs · docs buttons · search field */
+  --ds-radius-lg: 8px;       /* docs cards · docs tables */
+  --ds-radius-xl: 10px;      /* panels · modals · drawers · top bar */
+  --ds-radius-pill: 9999px;  /* avatars · pills · toggles · user menu */
+
+  /* ── System: spacing (12 stops on a roughly-8px-base rhythm) ─────────── */
+  --ds-space-0: 2px;
+  --ds-space-1: 4px;
+  --ds-space-1-5: 6px;
+  --ds-space-2: 8px;
+  --ds-space-3: 12px;
+  --ds-space-4: 16px;
+  --ds-space-5: 20px;
+  --ds-space-6: 24px;
+  --ds-space-8: 32px;
+  --ds-space-10: 40px;
+  --ds-space-14: 56px;
+  --ds-space-20: 80px;
+
+  /* ── System: elevation (6 stops paired with z-index) ─────────────────── */
+  --ds-elevation-e0: none;
+  --ds-elevation-e1: 0 1px 2px rgba(15, 23, 41, 0.06);
+  --ds-elevation-e2: 0 4px 12px rgba(15, 23, 41, 0.08);
+  --ds-elevation-e3: 0 10px 28px rgba(15, 23, 41, 0.10);
+  --ds-elevation-e4: 0 22px 54px rgba(15, 23, 41, 0.18);
+  --ds-elevation-e5: 0 18px 44px rgba(15, 23, 41, 0.20);
+
+  /* ── System: z-index ─────────────────────────────────────────────────── */
+  --ds-z-base: 0;
+  --ds-z-raised: 10;
+  --ds-z-dropdown: 1000;
+  --ds-z-banner: 1100;
+  --ds-z-drawer: 1200;
+  --ds-z-modal: 1300;
+  --ds-z-toast: 1400;
+
+  /* ── System: motion (durations) ──────────────────────────────────────── */
+  --ds-motion-instant: 0ms;
+  --ds-motion-fast: 120ms;
+  --ds-motion-base: 200ms;
+  --ds-motion-slow: 320ms;
+  --ds-motion-lazy: 480ms;
+
+  /* ── System: easing curves ───────────────────────────────────────────── */
+  --ds-ease-out: cubic-bezier(.22, .61, .36, 1);
+  --ds-ease-in: cubic-bezier(.55, .06, .68, .19);
+  --ds-ease-in-out: cubic-bezier(.65, .05, .36, 1);
+  --ds-ease-spring: cubic-bezier(.34, 1.56, .64, 1);
+
+  /* ── System: breakpoints (raw reference values) ──────────────────────── */
+  --ds-bp-sm: 640px;
+  --ds-bp-md: 768px;
+  --ds-bp-lg: 1024px;
+  --ds-bp-xl: 1280px;
+  --ds-bp-2xl: 1536px;
+
+  /* ── System: focus ring (single recipe across the system) ────────────── */
+  --ds-focus-ring: 0 0 0 3px color-mix(in srgb, var(--ds-accent, #1d5fd1) 20%, transparent);
+
+  /* ── Canonical status palette ─────────────────────────────────────────
+     Single source of truth for status / signal color. Re-use these tokens —
+     do NOT introduce new status hues. */
+
+  /* ok — 2xx · GET */
+  --status-ok-fg: #0a8f4a;
+  --status-ok-bg: #dcf5e5;
+  --status-ok-solid: #0a8f4a;
+
+  /* info — POST · informational */
+  --status-info-fg: #1d5fd1;
+  --status-info-bg: #dee9ff;
+  --status-info-solid: #1d5fd1;
+
+  /* warn — 429 · cautionary */
+  --status-warn-fg: #a96100;
+  --status-warn-bg: #fff0d6;
+  --status-warn-solid: #a96100;
+
+  /* danger — 4xx · DELETE · required */
+  --status-danger-fg: #b42318;
+  --status-danger-bg: #ffe0e0;
+  --status-danger-solid: #b42318;
+
+  /* serverErr — 5xx */
+  --status-serverErr-fg: #7c2d12;
+  --status-serverErr-bg: #fde2d3;
+  --status-serverErr-solid: #7c2d12;
+
+  /* patch — PATCH */
+  --status-patch-fg: #6b30c4;
+  --status-patch-bg: #f0e7fc;
+  --status-patch-solid: #6b30c4;
+
+  /* neutral — 1xx · 3xx · default */
+  --status-neutral-fg: #5a6472;
+  --status-neutral-bg: #eef0f6;
+  --status-neutral-solid: #6b7280;
+}
+
+/* ── Docs surface (dark) ────────────────────────────────────────────────── */
+
+.dark {
+  /* Surfaces */
+  --ds-bg: #0e1014;
+  --ds-surface: #161922;
+  --ds-surface-alt: #1c2030;
+  --ds-border: #252a3a;
+  --ds-border-soft: #1e2330;
+
+  /* Foreground hierarchy */
+  --ds-fg: #e7e9ee;
+  --ds-fg-muted: #8d93a3;
+  --ds-fg-faint: #5f6577;
+
+  /* Code */
+  --ds-code: #cfd3df;
+  --ds-code-bg: #0a0c11;
+
+  /* Dark accent — keep brand override priority; brighter teal fallback */
+  --ds-accent: var(--brand-primary-hex, #2dc1c1);
+  --ds-accent-soft: #0f2c2c;
+  --ds-accent-hover: #3fd9d9;
+}
+
+/* ── Pulse animation — used by status-dot live indicators ──────────────── */
+
+@keyframes wajiha-pulse {
+  0%   { transform: scale(1);   opacity: 0.6; }
+  100% { transform: scale(2.4); opacity: 0;   }
+}

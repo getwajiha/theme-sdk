@@ -2,8 +2,8 @@
   "name": "my-wajiha-theme",
   "version": "1.0.0",
   "author": "",
-  "description": "A custom Wajiha theme",
-  "sdk_version": "1.0.0",
+  "description": "A custom Wajiha theme scaffolded against the Wajiha Design System tokens. Tenant brand colour cascades through --brand-primary-hex.",
+  "sdk_version": "^1.1.0",
   "locales": ["en", "ar"],
   "settings": [
     {
@@ -24,7 +24,7 @@
       "key": "primary_color",
       "type": "color",
       "label": { "en": "Primary Color", "ar": "\u0627\u0644\u0644\u0648\u0646 \u0627\u0644\u0623\u0633\u0627\u0633\u064A" },
-      "default": "#2563eb"
+      "default": "#0e6e6e"
     },
     {
       "key": "show_featured_products",

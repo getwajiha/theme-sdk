@@ -1,5 +1,10 @@
 /**
- * Glass-styled input field for Midnight Prism theme.
+ * Wajiha Default — Login text input
+ *
+ * Renders a label + input pair styled with the Wajiha DS surface palette.
+ * The `form-control` class is kept on the input so the companion
+ * `keycloak/styles.css` can apply focus rings consistently across both
+ * the React-rendered and the FTL-rendered Keycloak pages.
  */
 
 import React from 'react'
@@ -32,10 +37,10 @@ export function GlassInput({
         style={{
           display: 'block',
           marginBottom: '8px',
-          fontSize: '13px',
-          fontWeight: 500,
-          color: 'rgba(255, 255, 255, 0.7)',
-          letterSpacing: '0.5px',
+          fontSize: '12px',
+          fontWeight: 600,
+          color: '#5a6472',           // --ds-fg-muted
+          letterSpacing: '0.08em',
           textTransform: 'uppercase',
         }}
       >
@@ -52,14 +57,14 @@ export function GlassInput({
         className="form-control"
         style={{
           width: '100%',
-          padding: '12px 16px',
-          background: 'rgba(255, 255, 255, 0.05)',
-          border: '1px solid rgba(255, 255, 255, 0.15)',
-          borderRadius: '12px',
-          color: '#fff',
+          padding: '12px 14px',
+          background: '#ffffff',          // --ds-bg
+          border: '1px solid #e5e8eb',    // --ds-border
+          borderRadius: '6px',            // --ds-radius-md
+          color: '#0a0e14',               // --ds-fg
           fontSize: '15px',
           outline: 'none',
-          transition: 'border-color 0.2s, box-shadow 0.2s',
+          transition: 'border-color 0.12s, box-shadow 0.12s',
           boxSizing: 'border-box',
         }}
       />

@@ -60,7 +60,7 @@ export function MobileMenu({ isOpen, onClose }: MobileMenuProps) {
         </nav>
 
         {available.length > 1 && (
-          <div style={{ marginTop: '2rem', paddingTop: '1.5rem', borderTop: '1px solid var(--mp-border)' }}>
+          <div style={{ marginTop: '2rem', paddingTop: '1.5rem', borderTop: '1px solid var(--ds-border)' }}>
             <div className="mp-label" style={{ marginBottom: '0.75rem' }}>
               {t('nav.language', {})}
             </div>

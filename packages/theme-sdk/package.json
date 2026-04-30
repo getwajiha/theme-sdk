@@ -1,7 +1,7 @@
 {
   "name": "@getwajiha/theme-sdk",
   "private": false,
-  "version": "1.0.0",
+  "version": "1.2.0",
   "description": "Theme SDK for building Wajiha storefront themes",
   "type": "module",
   "main": "./dist/index.cjs",
@@ -22,13 +22,15 @@
       "types": "./dist/utils.d.ts",
       "import": "./dist/utils.js",
       "require": "./dist/utils.cjs"
-    }
+    },
+    "./tokens.css": "./dist/tokens.css"
   },
   "files": [
     "dist"
   ],
   "scripts": {
-    "build": "tsup",
+    "build": "tsup && npm run build:tokens",
+    "build:tokens": "node -e \"require('node:fs').mkdirSync('dist',{recursive:true}); require('node:fs').copyFileSync('src/tokens/wajiha-ds.css','dist/tokens.css')\"",
     "dev": "tsup --watch",
     "typecheck": "tsc --noEmit",
     "test": "vitest run",

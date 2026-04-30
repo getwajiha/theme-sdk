@@ -1,14 +1,12 @@
 {
-  "name": "Midnight Prism",
-  "version": "1.0.0",
+  "name": "Wajiha Default",
+  "version": "1.1.0",
   "author": "Wajiha",
-  "description": "A modern, dark-themed storefront with violet accents and glass effects",
-  "sdk_version": "^1.0.0",
+  "description": "The reference Wajiha storefront theme — light-first canvas built on the Wajiha Design System tokens. Tenant brand colour cascades through --brand-primary-hex.",
+  "sdk_version": "^1.1.0",
   "settings": [
     { "key": "hero_title", "type": "text", "label": { "en": "Hero Title", "ar": "عنوان البطل" }, "default": "Welcome to our platform" },
     { "key": "hero_subtitle", "type": "text", "label": { "en": "Hero Subtitle", "ar": "العنوان الفرعي" }, "default": "Build, deploy, and manage your APIs with ease" },
-    { "key": "primary_color", "type": "color", "label": { "en": "Primary Color", "ar": "اللون الأساسي" }, "default": "#8B5CF6" },
-    { "key": "accent_color", "type": "color", "label": { "en": "Accent Color", "ar": "لون التمييز" }, "default": "#A78BFA" },
     { "key": "show_products", "type": "boolean", "label": { "en": "Show Products on Homepage", "ar": "إظهار المنتجات في الصفحة الرئيسية" }, "default": true },
     { "key": "max_products", "type": "number", "label": { "en": "Max Products on Homepage", "ar": "الحد الأقصى للمنتجات" }, "default": 6 },
     { "key": "hero_image", "type": "image", "label": { "en": "Hero Background Image", "ar": "صورة خلفية البطل" }, "default": null },

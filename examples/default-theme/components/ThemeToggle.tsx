@@ -3,22 +3,24 @@
 import { useState, useEffect } from 'react'
 import { useLocale } from '@getwajiha/theme-sdk'
 
+/**
+ * Toggles between Wajiha DS light (default) and dark modes by adding
+ * or removing the `dark` class on <html>. Wajiha DS scopes its dark
+ * tokens under `.dark`, so the class is what flips the entire surface
+ * (`--ds-bg`, `--ds-fg`, etc.).
+ */
 export function ThemeToggle() {
   const { t } = useLocale()
-  const [isDark, setIsDark] = useState(true)
+  const [isDark, setIsDark] = useState(false)
 
   useEffect(() => {
-    const root = document.documentElement
-    const stored = root.getAttribute('data-theme')
-    if (stored) {
-      setIsDark(stored === 'dark')
-    }
+    setIsDark(document.documentElement.classList.contains('dark'))
   }, [])
 
   const toggle = () => {
-    const next = isDark ? 'light' : 'dark'
-    document.documentElement.setAttribute('data-theme', next)
-    setIsDark(!isDark)
+    const next = !isDark
+    document.documentElement.classList.toggle('dark', next)
+    setIsDark(next)
   }
 
   return (

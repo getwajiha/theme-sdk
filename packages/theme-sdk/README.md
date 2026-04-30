@@ -38,13 +38,53 @@ export default function HomePage() {
 
 ## Exports
 
-The package exposes three entry points:
+The package exposes four entry points:
 
 | Import path | Contents |
 |---|---|
-| `@getwajiha/theme-sdk` | Provider, hooks, types, settings utilities |
+| `@getwajiha/theme-sdk` | Provider, hooks, types, settings utilities, `ThemeTokens` type |
 | `@getwajiha/theme-sdk/components` | Pre-built UI components |
 | `@getwajiha/theme-sdk/utils` | `cn`, `getTranslation`, `formatDate`, `formatCurrency`, `clsx` |
+| `@getwajiha/theme-sdk/tokens.css` | Optional Wajiha DS CSS tokens (`--ds-*`, `--status-*`, system scales) |
+
+---
+
+## Tokens
+
+Wajiha ships a canonical CSS design token layer that themes may opt into. The token surface mirrors what the platform itself uses for the docs canvas — surface colours (`--ds-bg`, `--ds-surface`), foreground (`--ds-fg`, `--ds-fg-muted`), accent (`--ds-accent`, defers to per-tenant `--brand-primary-hex`), system scales (radius / spacing / elevation / motion), and the canonical status palette (`--status-ok`, `--status-info`, etc.).
+
+```css
+/* In your theme's stylesheet (e.g. assets/styles/theme.css) */
+@import '@getwajiha/theme-sdk/tokens.css';
+
+.my-card {
+  background: var(--ds-surface);
+  color: var(--ds-fg);
+  border: 1px solid var(--ds-border);
+  border-radius: var(--ds-radius-lg);
+  padding: var(--ds-space-5);
+  box-shadow: var(--ds-elevation-e2);
+}
+
+.my-card:focus-within {
+  box-shadow: var(--ds-focus-ring);
+}
+```
+
+**Light + dark.** Tokens are scoped to `:root` (light) and `.dark` (dark). Toggle dark mode by adding the `dark` class to a wrapper element. The accent colour automatically inherits from the per-tenant brand override (`--brand-primary-hex`) when set by the platform.
+
+**TypeScript contract.** A `ThemeTokens` interface mirrors every token name. Useful when building admin UIs that override individual tokens, or for typing the optional `tokens` field on `ThemeConfig`:
+
+```ts
+import type { ThemeTokens } from '@getwajiha/theme-sdk'
+
+const overrides: Partial<ThemeTokens> = {
+  '--ds-accent': '#7c3aed',
+  '--ds-radius-lg': '12px',
+}
+```
+
+**Opt-out.** If your theme prefers its own design language, simply do not import `tokens.css`. Themes are self-contained CSS bundles served from S3 — there is no requirement to consume these tokens.
 
 ---
 

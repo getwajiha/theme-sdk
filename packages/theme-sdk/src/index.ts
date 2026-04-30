@@ -6,6 +6,7 @@ export {
   useThemeData,
   useTenant,
   useProducts,
+  useProduct,
   useLocale,
   useNavigation,
   useSettings,
@@ -47,3 +48,17 @@ export {
   getDefaultSettings,
   validateThemeConfig,
 } from './settings'
+
+// ── Tokens (TypeScript contract — CSS available at './tokens.css') ──
+export type {
+  ThemeTokens,
+  DocsSurfaceTokens,
+  RadiusTokens,
+  SpacingTokens,
+  ElevationTokens,
+  ZIndexTokens,
+  MotionTokens,
+  BreakpointTokens,
+  FocusTokens,
+  StatusPaletteTokens,
+} from './types/tokens'

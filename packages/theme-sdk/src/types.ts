@@ -69,7 +69,7 @@ export interface Appearance {
 
 // ── Page ────────────────────────────────────────────────────────────
 
-export type PageType = 'index' | 'page' | 'products' | 'error'
+export type PageType = 'index' | 'page' | 'products' | 'product' | 'error'
 
 export interface PageMeta {
   title: string
@@ -126,6 +126,8 @@ export interface ThemePageData {
   page: PageInfo
   user?: UserInfo
   products?: Product[]
+  /** Single-product detail data — set when pageType === 'product'. */
+  product?: Product
   error?: ErrorInfo
 }
 
@@ -156,6 +158,17 @@ export interface ThemeConfig {
   settings: ThemeSettingDefinition[]
   routes?: ThemeRoutes
   locales: string[]
+  /**
+   * Optional Wajiha DS token overrides — declared as CSS-property → value
+   * pairs (e.g. `{ "--ds-accent": "#7c3aed" }`). Keys should match those
+   * defined in `ThemeTokens` (`@getwajiha/theme-sdk/types/tokens`).
+   *
+   * Runtime currently treats this field as documentation only — themes
+   * still ship overrides via their own CSS bundle. The platform may log
+   * the declaration for observability. Per-tenant brand colour continues
+   * to flow through `--brand-primary-hex` set by the platform globals.
+   */
+  tokens?: Record<string, string>
 }
 
 // ── Template Component Props ────────────────────────────────────────
