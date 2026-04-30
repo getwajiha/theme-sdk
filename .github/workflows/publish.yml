@@ -4,6 +4,10 @@ on:
   push:
     tags:
       - 'v*'
+  # Allow manual dispatch from the Actions UI / `gh workflow run` so the
+  # workflow can be re-driven without retagging — e.g. when one workspace's
+  # publish failed but the other already shipped.
+  workflow_dispatch:
 
 jobs:
   publish:
@@ -35,8 +39,23 @@ jobs:
       - name: Test
         run: npm test
 
+      # Each publish step is idempotent: skip when the current version is
+      # already on npm. Lets a partial-failure rerun complete the missing
+      # workspace without erroring on the one that already shipped.
       - name: Publish theme-sdk
-        run: npm publish --workspace=packages/theme-sdk --access=public --provenance
+        run: |
+          version=$(node -p "require('./packages/theme-sdk/package.json').version")
+          if npm view "@getwajiha/theme-sdk@${version}" version >/dev/null 2>&1; then
+            echo "@getwajiha/theme-sdk@${version} already published — skipping."
+          else
+            npm publish --workspace=packages/theme-sdk --access=public --provenance
+          fi
 
       - name: Publish CLI
-        run: npm publish --workspace=packages/cli --access=public --provenance
+        run: |
+          version=$(node -p "require('./packages/cli/package.json').version")
+          if npm view "@getwajiha/cli@${version}" version >/dev/null 2>&1; then
+            echo "@getwajiha/cli@${version} already published — skipping."
+          else
+            npm publish --workspace=packages/cli --access=public --provenance
+          fi
